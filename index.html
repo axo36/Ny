@@ -1,60 +1,182 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<title>Horloge fluide avec fuseaux exacts</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Horloge Vol NYC → Paris</title>
+
 <style>
-  body { font-family: Arial; background:#0d1117; color:white; text-align:center; padding-top:40px; }
-  .clock { background:#161b22; padding:20px; margin:15px auto; width:280px; border-radius:12px; }
-  .time { font-size:32px; font-weight:bold; }
-  input { width:80%; margin-top:20px; }
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+    }
+
+    body{
+        background:#050816;
+        color:white;
+        font-family:Arial, Helvetica, sans-serif;
+        height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        overflow:hidden;
+    }
+
+    .container{
+        text-align:center;
+    }
+
+    .label{
+        font-size:1.3rem;
+        opacity:0.7;
+        margin-bottom:20px;
+        letter-spacing:2px;
+    }
+
+    .clock{
+        font-size:7rem;
+        font-weight:700;
+        letter-spacing:6px;
+        text-shadow:
+            0 0 10px rgba(255,255,255,0.3),
+            0 0 20px rgba(0,140,255,0.5),
+            0 0 40px rgba(0,140,255,0.4);
+        transition: all 0.1s linear;
+    }
+
+    .progress{
+        margin-top:40px;
+        width:400px;
+        height:8px;
+        background:rgba(255,255,255,0.1);
+        border-radius:999px;
+        overflow:hidden;
+    }
+
+    .progress-bar{
+        height:100%;
+        width:0%;
+        background:linear-gradient(90deg,#00c6ff,#0072ff);
+        transition:width 1s linear;
+    }
+
+    .info{
+        margin-top:18px;
+        opacity:0.7;
+        font-size:1rem;
+    }
+
 </style>
 </head>
+
 <body>
 
-<h2>Horloge fluide NY → France</h2>
+<div class="container">
 
-<div class="clock">
-  <div id="sim-time" class="time">--:--:--</div>
+    <div class="label">
+        VOL NEW YORK → PARIS
+    </div>
+
+    <div class="clock" id="clock">
+        00:00:00
+    </div>
+
+    <div class="progress">
+        <div class="progress-bar" id="bar"></div>
+    </div>
+
+    <div class="info" id="info">
+        Transition horaire fluide...
+    </div>
+
 </div>
 
-<label>Progression du vol (0% = New York, 100% = France)</label><br>
-<input type="range" id="progress" min="0" max="100" value="0">
-
 <script>
-  // vitesse : 1 seconde réelle = 5 minutes simulées
-  const acceleration = 5;
 
-  // fuseaux horaires traversés
-  const zones = [-4, -3, -2, -1, 0, 1, 2];
+    /*
+        CONFIGURATION
+    */
 
-  let simulated = new Date();
+    // Durée totale du vol (en heures)
+    const FLIGHT_DURATION_HOURS = 7;
 
-  function update() {
-    simulated = new Date(simulated.getTime() + acceleration * 60000);
+    // Décalage Paris par rapport à New York
+    // (souvent +6h)
+    const TIME_OFFSET_HOURS = 6;
 
-    const p = document.getElementById("progress").value / 100;
-    const total = zones.length - 1;
-    const pos = p * total;
+    // Heure de départ du vol
+    const flightStart = Date.now();
 
-    const index = Math.floor(pos);
-    const frac = pos - index;
+    // Durée du vol en millisecondes
+    const flightDurationMs =
+        FLIGHT_DURATION_HOURS * 60 * 60 * 1000;
 
-    const offset =
-      zones[index] * (1 - frac) +
-      zones[Math.min(index + 1, total)] * frac;
+    function updateClock(){
 
-    const local = new Date(simulated.getTime() + offset * 3600000);
+        const now = Date.now();
 
-    const h = String(local.getHours()).padStart(2, '0');
-    const m = String(local.getMinutes()).padStart(2, '0');
-    const s = String(local.getSeconds()).padStart(2, '0');
+        // Temps écoulé depuis le départ
+        const elapsed = now - flightStart;
 
-    document.getElementById("sim-time").textContent = `${h}:${m}:${s}`;
-  }
+        // Progression du vol entre 0 et 1
+        let progress = elapsed / flightDurationMs;
 
-  setInterval(update, 1000);
+        // Limite à 100%
+        if(progress > 1) progress = 1;
+
+        /*
+            TRANSITION FLUIDE
+
+            Au début :
+            +0h
+
+            À la fin :
+            +6h
+
+            Entre les deux :
+            interpolation progressive
+        */
+
+        const smoothOffsetHours =
+            TIME_OFFSET_HOURS * progress;
+
+        // Temps "modifié"
+        const smoothTime =
+            new Date(
+                now + smoothOffsetHours * 60 * 60 * 1000
+            );
+
+        // Affichage
+        const hours =
+            String(smoothTime.getHours()).padStart(2,'0');
+
+        const minutes =
+            String(smoothTime.getMinutes()).padStart(2,'0');
+
+        const seconds =
+            String(smoothTime.getSeconds()).padStart(2,'0');
+
+        document.getElementById("clock").innerHTML =
+            `${hours}:${minutes}:${seconds}`;
+
+        // Barre de progression
+        document.getElementById("bar").style.width =
+            `${progress * 100}%`;
+
+        // Texte info
+        const addedHours =
+            smoothOffsetHours.toFixed(2);
+
+        document.getElementById("info").innerHTML =
+            `Décalage appliqué : +${addedHours} h`;
+
+        // Animation ultra fluide
+        requestAnimationFrame(updateClock);
+    }
+
+    updateClock();
+
 </script>
 
 </body>
