@@ -3,10 +3,15 @@
 <head>
 
 <meta charset="UTF-8"/>
-<meta name="viewport"
-content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 
-<title>JETLAG AI • Premium</title>
+<meta name="viewport"
+content="width=device-width,
+initial-scale=1.0,
+viewport-fit=cover,
+maximum-scale=1.0,
+user-scalable=no"/>
+
+<title>JETLAG AI</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,15 +20,9 @@ content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 
 <style>
 
-:root{
-    --bg:#020617;
-    --glass:rgba(255,255,255,0.08);
-    --glass2:rgba(255,255,255,0.04);
-    --border:rgba(255,255,255,0.12);
-    --white:#ffffff;
-    --blue:#60a5fa;
-    --cyan:#67e8f9;
-}
+/* =========================================================
+   RESET
+========================================================= */
 
 *{
     margin:0;
@@ -37,13 +36,14 @@ body{
     width:100%;
     height:100%;
     overflow:hidden;
-    background:#000814;
+    background:#020617;
     font-family:'Inter',sans-serif;
+    color:white;
 }
 
-/* ===================================================
+/* =========================================================
    BACKGROUND CINÉMATIQUE
-=================================================== */
+========================================================= */
 
 .background{
     position:fixed;
@@ -51,25 +51,23 @@ body{
     overflow:hidden;
     background:
     radial-gradient(circle at top,
-    #0f172a 0%,
+    #111827 0%,
     #020617 45%,
     #000000 100%);
 }
 
-.glow1,
-.glow2,
-.glow3{
+.glow{
     position:absolute;
     border-radius:50%;
     filter:blur(100px);
 }
 
 .glow1{
-    width:500px;
-    height:500px;
+    width:520px;
+    height:520px;
     background:rgba(96,165,250,0.18);
-    top:-180px;
-    left:-120px;
+    top:-220px;
+    left:-160px;
     animation:float1 18s ease-in-out infinite;
 }
 
@@ -77,29 +75,29 @@ body{
     width:420px;
     height:420px;
     background:rgba(103,232,249,0.12);
-    bottom:-150px;
-    right:-120px;
-    animation:float2 22s ease-in-out infinite;
+    bottom:-180px;
+    right:-130px;
+    animation:float2 20s ease-in-out infinite;
 }
 
 .glow3{
     width:260px;
     height:260px;
     background:rgba(255,255,255,0.06);
-    top:35%;
+    top:40%;
     left:45%;
     animation:float3 14s ease-in-out infinite;
 }
 
 @keyframes float1{
     0%{transform:translate(0,0);}
-    50%{transform:translate(50px,40px);}
+    50%{transform:translate(40px,30px);}
     100%{transform:translate(0,0);}
 }
 
 @keyframes float2{
     0%{transform:translate(0,0);}
-    50%{transform:translate(-40px,-50px);}
+    50%{transform:translate(-30px,-40px);}
     100%{transform:translate(0,0);}
 }
 
@@ -109,16 +107,16 @@ body{
     100%{transform:translate(0,0);}
 }
 
-/* ===================================================
+/* =========================================================
    ÉTOILES
-=================================================== */
+========================================================= */
 
 .star{
     position:absolute;
     width:2px;
     height:2px;
-    background:white;
     border-radius:50%;
+    background:white;
     opacity:0.7;
     animation:twinkle 3s infinite;
 }
@@ -129,111 +127,130 @@ body{
     100%{opacity:0.15;}
 }
 
-/* ===================================================
+/* =========================================================
    AVION
-=================================================== */
+========================================================= */
 
 .plane{
     position:absolute;
-    top:20%;
-    left:-80px;
+    top:16%;
+    left:-100px;
     font-size:24px;
-    opacity:0.85;
-    animation:fly 30s linear infinite;
-    filter:drop-shadow(0 0 10px rgba(255,255,255,0.35));
+    opacity:0.9;
+    filter:drop-shadow(0 0 12px rgba(255,255,255,0.4));
+
+    animation:fly 28s linear infinite;
 }
 
 @keyframes fly{
+
     from{
         transform:translateX(0) translateY(0);
     }
 
     50%{
-        transform:translateX(60vw) translateY(-15px);
+        transform:translateX(60vw) translateY(-12px);
     }
 
     to{
-        transform:translateX(130vw) translateY(0);
+        transform:translateX(140vw) translateY(0);
     }
 }
 
-/* ===================================================
-   APP
-=================================================== */
+/* =========================================================
+   APP FULLSCREEN
+========================================================= */
 
 .app{
+
     position:relative;
-    z-index:5;
-    height:100vh;
+    z-index:10;
+
+    width:100%;
+    height:100%;
+
     display:flex;
     flex-direction:column;
     justify-content:space-between;
 
-    /*
-        PLUS GRAND :
-        prend tout l’écran
-    */
-
     padding:
-    max(28px, env(safe-area-inset-top))
+    max(24px, env(safe-area-inset-top))
     18px
-    max(28px, env(safe-area-inset-bottom));
+    max(24px, env(safe-area-inset-bottom));
 
-    color:white;
 }
 
-/* ===================================================
+/* =========================================================
    TOP
-=================================================== */
+========================================================= */
 
 .top{
+
     width:100%;
-    text-align:center;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    gap:18px;
 }
 
 .logo{
+
     font-size:1rem;
-    letter-spacing:7px;
-    opacity:0.72;
-    margin-bottom:22px;
     font-weight:600;
+
+    letter-spacing:8px;
+
+    opacity:0.72;
 }
 
 .status{
-    display:inline-flex;
+
+    display:flex;
     align-items:center;
     gap:10px;
+
     padding:14px 20px;
+
     border-radius:999px;
 
-    background:var(--glass);
-    border:1px solid var(--border);
+    background:rgba(255,255,255,0.08);
 
-    backdrop-filter:blur(20px);
+    border:1px solid rgba(255,255,255,0.10);
 
-    font-size:0.9rem;
+    backdrop-filter:blur(24px);
+
+    font-size:0.92rem;
 }
 
 .dot{
+
     width:10px;
     height:10px;
+
     border-radius:50%;
+
     background:#22c55e;
-    box-shadow:0 0 15px #22c55e;
+
+    box-shadow:0 0 16px #22c55e;
+
     animation:pulse 1.8s infinite;
 }
 
 @keyframes pulse{
+
     0%{transform:scale(1);}
     50%{transform:scale(1.5);}
     100%{transform:scale(1);}
 }
 
-/* ===================================================
+/* =========================================================
    CENTER
-=================================================== */
+========================================================= */
 
 .center{
+
     flex:1;
 
     display:flex;
@@ -241,56 +258,54 @@ body{
     align-items:center;
 }
 
+/* =========================================================
+   MEGA CLOCK CARD
+========================================================= */
+
 .clock-card{
 
-    /*
-        ÉNORME carte verticale
-    */
+    position:relative;
 
     width:100%;
     height:100%;
 
-    max-height:560px;
-
     border-radius:42px;
+
+    overflow:hidden;
 
     background:
     linear-gradient(
         180deg,
         rgba(255,255,255,0.10),
-        rgba(255,255,255,0.05)
+        rgba(255,255,255,0.04)
     );
 
-    border:1px solid rgba(255,255,255,0.12);
+    border:1px solid rgba(255,255,255,0.10);
 
-    backdrop-filter:blur(35px);
+    backdrop-filter:blur(30px);
+
+    box-shadow:
+    0 0 90px rgba(96,165,250,0.12);
 
     display:flex;
     flex-direction:column;
-    justify-content:center;
+    justify-content:space-evenly;
     align-items:center;
-
-    position:relative;
-
-    overflow:hidden;
-
-    box-shadow:
-    0 0 80px rgba(96,165,250,0.12);
 }
 
-/* reflet premium */
+/* REFLET PREMIUM */
 
 .clock-card::before{
+
     content:"";
+
     position:absolute;
 
-    top:-20%;
-    left:-40%;
+    top:-30%;
+    left:-50%;
 
-    width:180%;
+    width:200%;
     height:40%;
-
-    transform:rotate(-12deg);
 
     background:
     linear-gradient(
@@ -300,10 +315,13 @@ body{
         transparent
     );
 
+    transform:rotate(-12deg);
+
     animation:shine 10s linear infinite;
 }
 
 @keyframes shine{
+
     from{
         transform:
         rotate(-12deg)
@@ -317,78 +335,75 @@ body{
     }
 }
 
+/* =========================================================
+   TITRE
+========================================================= */
+
 .label{
-    font-size:0.95rem;
-    letter-spacing:5px;
-    opacity:0.7;
-    margin-bottom:26px;
+
+    font-size:1rem;
+
+    letter-spacing:6px;
+
+    opacity:0.72;
 }
+
+/* =========================================================
+   HORLOGE
+========================================================= */
 
 .clock{
 
-    font-size:6.5rem;
+    font-size:7rem;
 
     font-weight:700;
 
+    letter-spacing:4px;
+
     line-height:1;
 
-    letter-spacing:3px;
-
     text-shadow:
-    0 0 18px rgba(255,255,255,0.18),
-    0 0 40px rgba(96,165,250,0.45),
-    0 0 70px rgba(103,232,249,0.22);
+    0 0 18px rgba(255,255,255,0.15),
+    0 0 40px rgba(96,165,250,0.42),
+    0 0 70px rgba(103,232,249,0.20);
 }
 
+/* =========================================================
+   VILLE
+========================================================= */
+
 .city{
-    margin-top:26px;
-    font-size:1.05rem;
-    letter-spacing:5px;
+
+    font-size:1.1rem;
+
+    letter-spacing:6px;
+
     opacity:0.75;
 }
 
-.small{
-    margin-top:22px;
-    width:78%;
-    text-align:center;
-    line-height:1.7;
-    font-size:0.92rem;
-    opacity:0.55;
-}
+/* =========================================================
+   PROGRESS
+========================================================= */
 
-/* ===================================================
-   BOTTOM
-=================================================== */
+.progress-container{
 
-.bottom{
-    width:100%;
-    margin-top:18px;
-}
-
-.panel{
-    width:100%;
-
-    border-radius:30px;
-
-    padding:24px;
-
-    background:var(--glass2);
-
-    border:1px solid rgba(255,255,255,0.08);
-
-    backdrop-filter:blur(25px);
+    width:88%;
 }
 
 .row{
+
     display:flex;
     justify-content:space-between;
-    margin-bottom:18px;
+
+    margin-bottom:16px;
+
     font-size:0.95rem;
 }
 
 .progress{
+
     width:100%;
-    height:12px;
+    height:14px;
 
     border-radius:999px;
 
@@ -398,8 +413,10 @@ body{
 }
 
 .progress-bar{
+
     width:0%;
     height:100%;
+
     border-radius:999px;
 
     background:
@@ -414,26 +431,56 @@ body{
     0 0 18px rgba(96,165,250,0.4);
 }
 
+/* =========================================================
+   INFOS
+========================================================= */
+
 .info{
-    margin-top:18px;
+
+    width:80%;
+
     text-align:center;
-    line-height:1.7;
+
+    line-height:1.8;
+
+    font-size:0.96rem;
+
     opacity:0.75;
-    font-size:0.92rem;
 }
 
-/* ===================================================
-   RESPONSIVE IPHONE 12
-=================================================== */
+/* =========================================================
+   MODE SECOURS
+========================================================= */
+
+.backup{
+
+    padding:16px 20px;
+
+    border-radius:24px;
+
+    background:rgba(255,255,255,0.05);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    width:88%;
+
+    text-align:center;
+
+    line-height:1.7;
+
+    font-size:0.9rem;
+
+    opacity:0.78;
+}
+
+/* =========================================================
+   IPHONE 12
+========================================================= */
 
 @media(max-width:430px){
 
     .clock{
-        font-size:5.4rem;
-    }
-
-    .clock-card{
-        max-height:none;
+        font-size:5.8rem;
     }
 
 }
@@ -443,15 +490,19 @@ body{
 
 <body>
 
+<!-- BACKGROUND -->
+
 <div class="background">
 
-    <div class="glow1"></div>
-    <div class="glow2"></div>
-    <div class="glow3"></div>
+    <div class="glow glow1"></div>
+    <div class="glow glow2"></div>
+    <div class="glow glow3"></div>
 
 </div>
 
 <div class="plane">✈︎</div>
+
+<!-- APP -->
 
 <div class="app">
 
@@ -468,7 +519,7 @@ body{
             <div class="dot"></div>
 
             <span id="status">
-                En attente du décollage réel
+                Attente du décollage réel
             </span>
 
         </div>
@@ -493,31 +544,40 @@ body{
                 NEW YORK
             </div>
 
-            <div class="small" id="small">
-                Synchronisation progressive ultra précise du rythme biologique entre New York et Paris.
-            </div>
+            <div class="progress-container">
 
-        </div>
+                <div class="row">
 
-    </div>
+                    <span>Adaptation biologique</span>
 
-    <!-- BOTTOM -->
+                    <span id="percent">
+                        0%
+                    </span>
 
-    <div class="bottom">
+                </div>
 
-        <div class="panel">
+                <div class="progress">
 
-            <div class="row">
-                <span>Adaptation biologique</span>
-                <span id="percent">0%</span>
-            </div>
+                    <div class="progress-bar"
+                    id="bar"></div>
 
-            <div class="progress">
-                <div class="progress-bar" id="bar"></div>
+                </div>
+
             </div>
 
             <div class="info" id="info">
-                Le système attend le départ réel de l’avion
+
+                Synchronisation progressive ultra fluide du rythme biologique entre New York et Paris.
+
+            </div>
+
+            <!-- MODE SECOURS -->
+
+            <div class="backup" id="backup">
+
+                Système de secours prêt •
+                fonctionnement autonome hors ligne total.
+
             </div>
 
         </div>
@@ -528,11 +588,11 @@ body{
 
 <script>
 
-/* ===================================================
+/* =========================================================
    ÉTOILES
-=================================================== */
+========================================================= */
 
-for(let i=0;i<180;i++){
+for(let i=0;i<220;i++){
 
     const s=document.createElement("div");
 
@@ -549,57 +609,97 @@ for(let i=0;i<180;i++){
     document.body.appendChild(s);
 }
 
-/* ===================================================
+/* =========================================================
    CONFIG
-=================================================== */
+========================================================= */
 
 const DESTINATION_OFFSET=6;
-const FLIGHT_DURATION=7;
+const FLIGHT_DURATION_HOURS=7;
 
-/* ===================================================
-   ÉTAT VOL
-=================================================== */
+/* =========================================================
+   ÉTAT
+========================================================= */
 
 let started=false;
 let flightStart=0;
 
-/* ===================================================
-   DÉMARRAGE SMART
-=================================================== */
+/* =========================================================
+   SYSTÈME DE SECOURS
+========================================================= */
 
-function startFlight(){
+/*
+    Le système sauvegarde tout localement :
 
-    if(started) return;
+    - heure départ
+    - progression
+    - état vol
 
-    started=true;
+    Donc :
+    même sans wifi
+    même sans réseau
+    même en mode avion
 
-    flightStart=Date.now();
+    => tout continue parfaitement.
+*/
+
+function saveState(){
 
     localStorage.setItem(
         "flightStart",
         flightStart
     );
 
-    document.getElementById("status")
-    .innerText=
-    "Vol détecté • synchronisation active";
+    localStorage.setItem(
+        "flightStarted",
+        started
+    );
 }
 
+function loadState(){
+
+    const savedStart=
+    localStorage.getItem("flightStart");
+
+    const savedStarted=
+    localStorage.getItem("flightStarted");
+
+    if(savedStart && savedStarted==="true"){
+
+        started=true;
+
+        flightStart=Number(savedStart);
+
+        document.getElementById("status")
+        .innerText="Vol en cours • mode autonome";
+
+        document.getElementById("backup")
+        .innerHTML=
+        "Mode secours actif • fonctionnement 100% hors ligne.";
+    }
+}
+
+loadState();
+
+/* =========================================================
+   DÉTECTION SMART
+========================================================= */
+
 /*
-    Le vol démarre SEULEMENT :
+    Départ SEULEMENT si :
 
-    - si plus internet
-    - pendant 2 minutes
-    - ET téléphone verrouillé/réveillé
-
-    donc beaucoup plus fiable.
+    - perte internet prolongée
+    - ET écran réactivé
 */
 
 window.addEventListener("offline",()=>{
 
+    document.getElementById("backup")
+    .innerHTML=
+    "Connexion perdue • bascule automatique en mode autonome.";
+
     setTimeout(()=>{
 
-        if(!navigator.onLine){
+        if(!navigator.onLine && !started){
 
             startFlight();
         }
@@ -607,30 +707,42 @@ window.addEventListener("offline",()=>{
     },120000);
 });
 
-/* double tap manuel ultra discret */
+/* double tap manuel discret */
 
 document.body.addEventListener(
 "dblclick",
-()=>startFlight()
-);
+()=>{
 
-/* restore */
+    if(!started){
 
-const saved=
-localStorage.getItem("flightStart");
+        startFlight();
+    }
+});
 
-if(saved){
+/* =========================================================
+   START
+========================================================= */
+
+function startFlight(){
 
     started=true;
-    flightStart=Number(saved);
+
+    flightStart=Date.now();
+
+    saveState();
 
     document.getElementById("status")
-    .innerText="Vol en cours";
+    .innerText=
+    "Vol détecté • synchronisation active";
+
+    document.getElementById("backup")
+    .innerHTML=
+    "Horloge autonome activée • aucune connexion nécessaire.";
 }
 
-/* ===================================================
-   HORLOGE
-=================================================== */
+/* =========================================================
+   HORLOGE ULTRA FLUIDE
+========================================================= */
 
 function update(){
 
@@ -645,7 +757,7 @@ function update(){
         Date.now()-flightStart;
 
         const total=
-        FLIGHT_DURATION*
+        FLIGHT_DURATION_HOURS*
         60*
         60*
         1000;
@@ -654,7 +766,8 @@ function update(){
         Math.min(elapsed/total,1);
 
         /*
-            Courbe ultra naturelle
+            Courbe naturelle :
+            aucune cassure
         */
 
         const smooth=
@@ -665,7 +778,7 @@ function update(){
     }
 
     /*
-        Heure parfaitement fluide
+        Heure progressive parfaite
     */
 
     const adapted=
@@ -685,7 +798,7 @@ function update(){
     document.getElementById("clock")
     .innerText=`${h}:${m}`;
 
-    /* villes */
+    /* ville */
 
     if(progress<0.18){
 
@@ -695,7 +808,7 @@ function update(){
     }else if(progress<0.82){
 
         document.getElementById("city")
-        .innerText="OCÉAN ATLANTIQUE";
+        .innerText="ATLANTIQUE NORD";
 
     }else{
 
@@ -703,21 +816,23 @@ function update(){
         .innerText="PARIS";
     }
 
-    /* ui */
+    /* progression */
 
     document.getElementById("bar")
     .style.width=
-    (progress*100)+"%";
+    progress*100+"%";
 
     document.getElementById("percent")
     .innerText=
     Math.round(progress*100)+"%";
 
+    /* info */
+
     document.getElementById("info")
     .innerHTML=
     started
-    ? `Décalage actuel : +${shift.toFixed(2)}h • transition biologique fluide`
-    : `Le système attend le vrai décollage de l’avion`;
+    ? `Décalage actuel : +${shift.toFixed(2)}h • transition biologique ultra fluide`
+    : `Le système attend le vrai départ de l’avion`;
 
     requestAnimationFrame(update);
 }
