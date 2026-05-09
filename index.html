@@ -11,7 +11,7 @@ viewport-fit=cover,
 maximum-scale=1.0,
 user-scalable=no"/>
 
-<title>JETLAG AI</title>
+<title>JETLAG AI • Barcelone</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -42,7 +42,7 @@ body{
 }
 
 /* ======================================================
-   BACKGROUND PREMIUM
+   BACKGROUND
 ====================================================== */
 
 .background{
@@ -115,7 +115,7 @@ body{
 }
 
 /* ======================================================
-   ÉTOILES
+   STARS
 ====================================================== */
 
 .star{
@@ -301,8 +301,6 @@ body{
     0 0 90px rgba(96,165,250,0.12);
 }
 
-/* reflet premium */
-
 .clock-card::before{
 
     content:"";
@@ -344,7 +342,7 @@ body{
 }
 
 /* ======================================================
-   LABEL
+   TEXT
 ====================================================== */
 
 .label{
@@ -355,10 +353,6 @@ body{
 
     opacity:0.72;
 }
-
-/* ======================================================
-   HORLOGE
-====================================================== */
 
 .clock{
 
@@ -375,10 +369,6 @@ body{
     0 0 40px rgba(96,165,250,0.42),
     0 0 70px rgba(103,232,249,0.20);
 }
-
-/* ======================================================
-   CITY
-====================================================== */
 
 .city{
 
@@ -440,7 +430,7 @@ body{
 }
 
 /* ======================================================
-   INFO
+   INFOS
 ====================================================== */
 
 .info{
@@ -455,10 +445,6 @@ body{
 
     opacity:0.74;
 }
-
-/* ======================================================
-   BACKUP MODE
-====================================================== */
 
 .backup{
 
@@ -482,7 +468,7 @@ body{
 }
 
 /* ======================================================
-   IPHONE 12
+   RESPONSIVE
 ====================================================== */
 
 @media(max-width:430px){
@@ -498,8 +484,6 @@ body{
 
 <body>
 
-<!-- BACKGROUND -->
-
 <div class="background">
 
     <div class="glow1"></div>
@@ -508,11 +492,7 @@ body{
 
 </div>
 
-<!-- AVION -->
-
 <div class="plane">✈︎</div>
-
-<!-- APP -->
 
 <div class="app">
 
@@ -529,7 +509,7 @@ body{
             <div class="dot"></div>
 
             <span id="status">
-                En attente du décollage réel
+                Vol en cours • synchronisation exacte
             </span>
 
         </div>
@@ -551,7 +531,7 @@ body{
             </div>
 
             <div class="city" id="city">
-                NEW YORK
+                ATLANTIQUE NORD
             </div>
 
             <div class="progress-container">
@@ -579,13 +559,13 @@ body{
 
             <div class="info" id="info">
 
-                Synchronisation progressive ultra fluide du rythme biologique entre New York et Paris.
+                Synchronisation ultra fluide du rythme biologique entre New York et Barcelone.
 
             </div>
 
             <div class="backup" id="backup">
 
-                Système de secours prêt • fonctionnement autonome hors ligne total.
+                Mode autonome activé • fonctionnement hors ligne total.
 
             </div>
 
@@ -619,200 +599,88 @@ for(let i=0;i<200;i++){
 }
 
 /* ======================================================
-   CONFIG
+   CONFIG VOL RÉEL
 ====================================================== */
+
+/*
+    Temps restant ACTUEL :
+    7h13 avant Barcelone
+*/
+
+const REMAINING_HOURS = 7;
+const REMAINING_MINUTES = 13;
+
+/*
+    durée restante
+*/
+
+const REMAINING_TIME_MS =
+(
+    (REMAINING_HOURS * 60)
+    +
+    REMAINING_MINUTES
+)
+*
+60
+*
+1000;
+
+/*
+    Décalage :
+    New York -> Barcelone
+*/
 
 const DESTINATION_OFFSET = 6;
-const FLIGHT_DURATION_HOURS = 7;
-
-/* ======================================================
-   ÉTAT VOL
-====================================================== */
-
-let started = false;
-let flightStart = 0;
-
-let offlineTimer = null;
-
-/* ======================================================
-   SAUVEGARDE AUTONOME
-====================================================== */
-
-function saveState(){
-
-    localStorage.setItem(
-        "flightStart",
-        flightStart
-    );
-
-    localStorage.setItem(
-        "flightStarted",
-        started
-    );
-}
-
-function loadState(){
-
-    const savedStart =
-    localStorage.getItem("flightStart");
-
-    const savedStarted =
-    localStorage.getItem("flightStarted");
-
-    if(savedStart && savedStarted === "true"){
-
-        started = true;
-
-        flightStart = Number(savedStart);
-
-        document.getElementById("status")
-        .innerText =
-        "Vol en cours • mode autonome";
-
-        document.getElementById("backup")
-        .innerHTML =
-        "Mode secours actif • fonctionnement hors ligne.";
-    }
-}
-
-loadState();
-
-/* ======================================================
-   DÉTECTION ULTRA PRÉCISE
-====================================================== */
-
-window.addEventListener("offline",()=>{
-
-    document.getElementById("backup")
-    .innerHTML =
-    "Connexion perdue • vérification du décollage...";
-
-    offlineTimer = setTimeout(()=>{
-
-        /*
-            si toujours hors ligne
-        */
-
-        if(!navigator.onLine && !started){
-
-            const confirmFlight = confirm(
-                "Le vol a-t-il réellement décollé ?"
-            );
-
-            if(confirmFlight){
-
-                startFlight();
-
-            }else{
-
-                document.getElementById("backup")
-                .innerHTML =
-                "Mode attente • avion non détecté.";
-            }
-        }
-
-    },300000); // 5 minutes
-});
-
-/* ======================================================
-   RETOUR INTERNET
-====================================================== */
-
-window.addEventListener("online",()=>{
-
-    clearTimeout(offlineTimer);
-
-    document.getElementById("backup")
-    .innerHTML =
-    "Connexion détectée • attente du décollage.";
-});
-
-/* ======================================================
-   DOUBLE TAP MANUEL
-====================================================== */
-
-document.body.addEventListener(
-"dblclick",
-()=>{
-
-    if(!started){
-
-        const confirmFlight = confirm(
-            "Démarrer le mode vol ?"
-        );
-
-        if(confirmFlight){
-
-            startFlight();
-        }
-    }
-});
 
 /* ======================================================
    START
 ====================================================== */
 
-function startFlight(){
-
-    started = true;
-
-    flightStart = Date.now();
-
-    saveState();
-
-    document.getElementById("status")
-    .innerText =
-    "Vol détecté • synchronisation active";
-
-    document.getElementById("backup")
-    .innerHTML =
-    "Horloge autonome activée • aucune connexion nécessaire.";
-}
+const flightStart = Date.now();
 
 /* ======================================================
-   HORLOGE ULTRA FLUIDE
+   HORLOGE
 ====================================================== */
 
 function update(){
 
     const now = new Date();
 
-    let progress = 0;
-    let shift = 0;
-
-    if(started){
-
-        const elapsed =
-        Date.now() - flightStart;
-
-        const total =
-        FLIGHT_DURATION_HOURS *
-        60 *
-        60 *
-        1000;
-
-        progress =
-        Math.min(elapsed / total,1);
-
-        /*
-            courbe ultra naturelle
-        */
-
-        const smooth =
-        (1 - Math.cos(progress * Math.PI)) / 2;
-
-        shift =
-        DESTINATION_OFFSET * smooth;
-    }
+    const elapsed =
+    Date.now() - flightStart;
 
     /*
-        heure fluide parfaite
+        progression réelle
+    */
+
+    const progress =
+    Math.min(
+        elapsed / REMAINING_TIME_MS,
+        1
+    );
+
+    /*
+        ultra fluide
+    */
+
+    const smooth =
+    (1 - Math.cos(progress * Math.PI)) / 2;
+
+    /*
+        décalage progressif
+    */
+
+    const shift =
+    DESTINATION_OFFSET * smooth;
+
+    /*
+        heure adaptée
     */
 
     const adapted =
     new Date(
         now.getTime() +
-        shift * 3600000
+        (shift * 3600000)
     );
 
     const h =
@@ -826,25 +694,29 @@ function update(){
     document.getElementById("clock")
     .innerText = `${h}:${m}`;
 
-    /* villes */
+    /* ======================================================
+       VILLE
+    ====================================================== */
 
-    if(progress < 0.18){
+    if(progress < 0.20){
 
         document.getElementById("city")
         .innerText = "NEW YORK";
 
-    }else if(progress < 0.82){
+    }else if(progress < 0.90){
 
         document.getElementById("city")
-        .innerText = "ATLANTIQUE NORD";
+        .innerText = "ATLANTIQUE";
 
     }else{
 
         document.getElementById("city")
-        .innerText = "PARIS";
+        .innerText = "BARCELONE";
     }
 
-    /* progression */
+    /* ======================================================
+       PROGRESS
+    ====================================================== */
 
     document.getElementById("bar")
     .style.width =
@@ -854,13 +726,38 @@ function update(){
     .innerText =
     Math.round(progress * 100) + "%";
 
-    /* infos */
+    /* ======================================================
+       INFOS
+    ====================================================== */
+
+    const remainingMs =
+    Math.max(
+        REMAINING_TIME_MS - elapsed,
+        0
+    );
+
+    const remainingHours =
+    Math.floor(
+        remainingMs / 3600000
+    );
+
+    const remainingMinutes =
+    Math.floor(
+        (remainingMs % 3600000)
+        / 60000
+    );
 
     document.getElementById("info")
     .innerHTML =
-    started
-    ? `Décalage actuel : +${shift.toFixed(2)}h • transition biologique ultra fluide`
-    : `Le système attend le vrai départ de l’avion`;
+    `
+    Décalage actuel :
+    +${shift.toFixed(2)}h
+
+    •
+
+    Arrivée Barcelone dans
+    ${remainingHours}h${String(remainingMinutes).padStart(2,"0")}
+    `;
 
     requestAnimationFrame(update);
 }
