@@ -1,133 +1,224 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 
-<title>Flight Sync</title>
+<meta charset="UTF-8"/>
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+
+<title>JetLag AI</title>
 
 <style>
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700&display=swap');
+
 :root{
-    --bg1:#050816;
-    --bg2:#0f172a;
-    --blue:#4da3ff;
-    --white:#ffffff;
+    --bg:#020617;
     --glass:rgba(255,255,255,0.08);
+    --border:rgba(255,255,255,0.12);
+    --white:#ffffff;
+    --blue:#60a5fa;
+    --cyan:#67e8f9;
 }
 
 *{
     margin:0;
     padding:0;
     box-sizing:border-box;
-    -webkit-tap-highlight-color: transparent;
+    -webkit-tap-highlight-color:transparent;
 }
 
-body{
-    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
-    background:
-        radial-gradient(circle at top,
-        #12203f 0%,
-        #050816 45%,
-        #01030b 100%);
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    background:#000814;
+    font-family:'Inter',sans-serif;
     color:white;
-    height:100vh;
+}
+
+/* BACKGROUND */
+
+.bg{
+    position:fixed;
+    inset:0;
     overflow:hidden;
 }
 
+.gradient{
+    position:absolute;
+    width:160vw;
+    height:160vw;
+    background:
+    radial-gradient(circle,
+    rgba(96,165,250,0.20),
+    transparent 60%);
+    top:-60%;
+    left:-30%;
+    animation:rotateBg 30s linear infinite;
+}
+
+.gradient2{
+    position:absolute;
+    width:120vw;
+    height:120vw;
+    background:
+    radial-gradient(circle,
+    rgba(103,232,249,0.12),
+    transparent 60%);
+    bottom:-50%;
+    right:-30%;
+    animation:rotateBg2 24s linear infinite;
+}
+
+@keyframes rotateBg{
+    from{transform:rotate(0deg);}
+    to{transform:rotate(360deg);}
+}
+
+@keyframes rotateBg2{
+    from{transform:rotate(360deg);}
+    to{transform:rotate(0deg);}
+}
+
+/* STARS */
+
+.star{
+    position:absolute;
+    width:2px;
+    height:2px;
+    background:white;
+    border-radius:50%;
+    opacity:0.5;
+    animation:twinkle 3s infinite;
+}
+
+@keyframes twinkle{
+    0%{opacity:0.2;}
+    50%{opacity:1;}
+    100%{opacity:0.2;}
+}
+
+/* APP */
+
 .app{
+    position:relative;
+    z-index:10;
     height:100vh;
-    width:100%;
     display:flex;
     flex-direction:column;
     justify-content:space-between;
     padding:
-        max(20px, env(safe-area-inset-top))
-        20px
+        max(24px, env(safe-area-inset-top))
+        22px
         max(30px, env(safe-area-inset-bottom));
 }
 
-/* HEADER */
+/* TOP */
 
 .top{
     text-align:center;
-    margin-top:10px;
 }
 
-.flight{
-    font-size:0.95rem;
-    opacity:0.75;
-    letter-spacing:3px;
-    margin-bottom:12px;
+.logo{
+    font-size:1rem;
+    letter-spacing:5px;
+    opacity:0.7;
+    margin-bottom:18px;
 }
 
 .status{
     display:inline-flex;
     align-items:center;
-    gap:8px;
-    padding:8px 14px;
-    border-radius:999px;
+    gap:10px;
+    padding:12px 18px;
     background:var(--glass);
-    backdrop-filter: blur(10px);
-    font-size:0.85rem;
+    border:1px solid var(--border);
+    border-radius:999px;
+    backdrop-filter:blur(18px);
+    font-size:0.9rem;
 }
 
 .dot{
-    width:8px;
-    height:8px;
+    width:10px;
+    height:10px;
     border-radius:50%;
-    background:#44ff88;
-    box-shadow:0 0 12px #44ff88;
-    animation:pulse 1.5s infinite;
+    background:#22c55e;
+    box-shadow:0 0 12px #22c55e;
+    animation:pulse 1.8s infinite;
 }
 
 @keyframes pulse{
-    0%{transform:scale(1);opacity:1;}
-    50%{transform:scale(1.5);opacity:0.5;}
-    100%{transform:scale(1);opacity:1;}
+    0%{transform:scale(1);}
+    50%{transform:scale(1.5);}
+    100%{transform:scale(1);}
 }
 
-/* CLOCK */
+/* CENTER */
 
 .center{
+    flex:1;
     display:flex;
     flex-direction:column;
-    align-items:center;
     justify-content:center;
-    flex:1;
+    align-items:center;
+}
+
+.clock-card{
+    width:100%;
+    border-radius:40px;
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.12);
+    backdrop-filter:blur(30px);
+    padding:42px 20px;
+    text-align:center;
+    box-shadow:
+    0 0 60px rgba(96,165,250,0.12);
+}
+
+.label{
+    opacity:0.65;
+    letter-spacing:4px;
+    margin-bottom:18px;
+    font-size:0.9rem;
 }
 
 .clock{
-    font-size:4.8rem;
+    font-size:5.3rem;
     font-weight:700;
-    letter-spacing:2px;
     line-height:1;
+    letter-spacing:2px;
     text-shadow:
-        0 0 10px rgba(255,255,255,0.15),
-        0 0 30px rgba(77,163,255,0.35);
+        0 0 18px rgba(255,255,255,0.18),
+        0 0 35px rgba(96,165,250,0.35);
 }
 
 .city{
-    margin-top:18px;
+    margin-top:20px;
     font-size:1rem;
-    opacity:0.7;
-    letter-spacing:2px;
+    opacity:0.75;
+    letter-spacing:3px;
 }
 
-/* PROGRESSION */
+.small{
+    margin-top:16px;
+    font-size:0.9rem;
+    opacity:0.55;
+    line-height:1.5;
+}
+
+/* BOTTOM */
 
 .bottom{
     width:100%;
 }
 
-.card{
-    width:100%;
-    border-radius:28px;
-    padding:22px;
+.panel{
+    border-radius:30px;
     background:rgba(255,255,255,0.06);
-    backdrop-filter: blur(18px);
-    border:1px solid rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.10);
+    backdrop-filter:blur(20px);
+    padding:24px;
 }
 
 .row{
@@ -138,44 +229,61 @@ body{
 }
 
 .progress{
+    height:12px;
     width:100%;
-    height:10px;
-    background:rgba(255,255,255,0.08);
     border-radius:999px;
     overflow:hidden;
+    background:rgba(255,255,255,0.08);
 }
 
 .progress-bar{
-    height:100%;
     width:0%;
+    height:100%;
     border-radius:999px;
     background:
-        linear-gradient(
-            90deg,
-            #3b82f6,
-            #60a5fa,
-            #93c5fd
-        );
+    linear-gradient(
+        90deg,
+        #3b82f6,
+        #60a5fa,
+        #67e8f9
+    );
+    transition:width 1s linear;
 }
 
 .info{
-    margin-top:16px;
+    margin-top:18px;
     text-align:center;
+    font-size:0.92rem;
     opacity:0.75;
-    font-size:0.9rem;
-    line-height:1.5;
+    line-height:1.6;
 }
 
-/* iPhone 12 optimisations */
+/* AIRPLANE */
 
-@media (max-width:430px){
+.plane{
+    position:absolute;
+    top:52%;
+    left:-100px;
+    font-size:24px;
+    opacity:0.8;
+    animation:fly 24s linear infinite;
+}
+
+@keyframes fly{
+    from{
+        transform:translateX(0);
+    }
+    to{
+        transform:translateX(140vw);
+    }
+}
+
+/* RESPONSIVE */
+
+@media(max-width:430px){
 
     .clock{
-        font-size:4rem;
-    }
-
-    .card{
-        padding:20px;
+        font-size:4.4rem;
     }
 
 }
@@ -185,20 +293,27 @@ body{
 
 <body>
 
+<div class="bg">
+    <div class="gradient"></div>
+    <div class="gradient2"></div>
+</div>
+
+<div class="plane">✈️</div>
+
 <div class="app">
 
     <!-- TOP -->
 
     <div class="top">
 
-        <div class="flight">
-            SMART FLIGHT CLOCK
+        <div class="logo">
+            JETLAG AI
         </div>
 
         <div class="status">
             <div class="dot"></div>
-            <span id="statusText">
-                Synchronisation intelligente
+            <span id="status">
+                En attente du décollage
             </span>
         </div>
 
@@ -208,12 +323,24 @@ body{
 
     <div class="center">
 
-        <div class="clock" id="clock">
-            00:00
-        </div>
+        <div class="clock-card">
 
-        <div class="city" id="city">
-            Préparation du vol...
+            <div class="label">
+                HEURE ADAPTATIVE
+            </div>
+
+            <div class="clock" id="clock">
+                00:00
+            </div>
+
+            <div class="city" id="city">
+                NEW YORK
+            </div>
+
+            <div class="small" id="small">
+                Synchronisation précise du fuseau horaire
+            </div>
+
         </div>
 
     </div>
@@ -222,10 +349,10 @@ body{
 
     <div class="bottom">
 
-        <div class="card">
+        <div class="panel">
 
             <div class="row">
-                <span>Progression adaptation</span>
+                <span>Adaptation circadienne</span>
                 <span id="percent">0%</span>
             </div>
 
@@ -234,7 +361,7 @@ body{
             </div>
 
             <div class="info" id="info">
-                Analyse du fuseau horaire...
+                Attente du départ réel de l’avion
             </div>
 
         </div>
@@ -245,195 +372,219 @@ body{
 
 <script>
 
-/* =======================================================
-   CONFIG SMART VOL
-======================================================= */
+/* ============================================
+   ÉTOILES DYNAMIQUES
+============================================ */
 
-// Destination
-const DESTINATION_TIMEZONE = "Europe/Paris";
+for(let i=0;i<120;i++){
 
-// Durée estimée du vol NYC -> Paris
-const ESTIMATED_FLIGHT_HOURS = 7;
+    const star=document.createElement("div");
 
-// Décalage max progressif
-const MAX_SHIFT_HOURS = 6;
+    star.className="star";
 
-/* =======================================================
-   VARIABLES
-======================================================= */
+    star.style.left=Math.random()*100+"vw";
+    star.style.top=Math.random()*100+"vh";
 
-let flightStarted = false;
-let flightStartTime = null;
+    star.style.animationDelay=
+        Math.random()*3+"s";
 
-/* =======================================================
-   DÉTECTION INTELLIGENTE
-======================================================= */
+    star.style.opacity=
+        Math.random();
+
+    document.body.appendChild(star);
+}
+
+/* ============================================
+   CONFIG
+============================================ */
+
+const PARIS_OFFSET = 6; // NYC -> Paris
+const FLIGHT_DURATION_HOURS = 7;
+
+/* ============================================
+   VOL RÉEL
+============================================ */
+
+let started=false;
+let flightStart=null;
 
 /*
-    Le système démarre automatiquement
-    quand :
+    Le vol démarre uniquement si :
 
-    - l'utilisateur ouvre le site
-    - puis reste hors ligne
-    - ou garde l'écran longtemps
-    - ou clique une fois
+    - l'utilisateur est OFFLINE
+    ET
+    - il y a eu au moins 2 min sans activité
+    OU
+    - il clique "décollage"
 
-    Ça donne l'impression d'un système
-    autonome même sans wifi.
+    Donc :
+    pas de faux démarrage à l'aéroport.
 */
 
-function startFlightMode(){
+/* ============================================
+   BOUTON INVISIBLE SMART
+============================================ */
 
-    if(flightStarted) return;
+document.body.addEventListener("dblclick",()=>{
 
-    flightStarted = true;
+    if(!started){
 
-    flightStartTime = Date.now();
-
-    localStorage.setItem(
-        "flightStartTime",
-        flightStartTime
-    );
-
-    document.getElementById("statusText")
-        .innerText = "Mode vol actif";
-
-}
-
-/* =======================================================
-   RESTORE SI REOUVERT
-======================================================= */
-
-const savedFlight =
-    localStorage.getItem("flightStartTime");
-
-if(savedFlight){
-
-    flightStarted = true;
-    flightStartTime = Number(savedFlight);
-
-    document.getElementById("statusText")
-        .innerText = "Vol repris automatiquement";
-}
-
-/* =======================================================
-   AUTO START
-======================================================= */
-
-// Si plus internet → probablement avion
-
-window.addEventListener("offline", () => {
-    startFlightMode();
+        startFlight();
+    }
 });
 
-// Premier toucher écran
+/* ============================================
+   MODE AVION
+============================================ */
 
-document.body.addEventListener("touchstart", () => {
-    startFlightMode();
-}, { once:true });
+function startFlight(){
 
-/* =======================================================
-   HORLOGE PRINCIPALE
-======================================================= */
+    started=true;
 
-function updateClock(){
+    flightStart=Date.now();
 
-    const now = Date.now();
+    localStorage.setItem(
+        "flightStart",
+        flightStart
+    );
 
-    // Heure locale actuelle
-    const currentDate = new Date();
+    document.getElementById("status")
+    .innerText="Vol détecté • adaptation active";
+}
 
-    let progressiveShift = 0;
-    let progress = 0;
+/* ============================================
+   RESTORE
+============================================ */
 
-    // Si vol commencé
-    if(flightStarted){
+const saved=
+localStorage.getItem("flightStart");
 
-        const elapsed =
-            now - flightStartTime;
+if(saved){
 
-        const total =
-            ESTIMATED_FLIGHT_HOURS *
-            60 *
-            60 *
-            1000;
+    started=true;
+    flightStart=Number(saved);
 
-        progress =
-            Math.min(elapsed / total, 1);
+    document.getElementById("status")
+    .innerText="Vol en cours";
+}
+
+/* ============================================
+   AUTO DÉTECTION PLUS PRÉCISE
+============================================ */
+
+window.addEventListener("offline",()=>{
+
+    /*
+        On attend un peu après perte réseau
+        car à l'aéroport le wifi saute souvent.
+    */
+
+    setTimeout(()=>{
+
+        if(!navigator.onLine && !started){
+
+            startFlight();
+        }
+
+    },120000); // 2 min
+});
+
+/* ============================================
+   HORLOGE ULTRA FLUIDE
+============================================ */
+
+function update(){
+
+    const now=new Date();
+
+    let progress=0;
+    let addedHours=0;
+
+    if(started){
+
+        const elapsed=
+            Date.now()-flightStart;
+
+        const total=
+            FLIGHT_DURATION_HOURS*
+            60*60*1000;
+
+        progress=
+            Math.min(elapsed/total,1);
 
         /*
-            Transition fluide
-            exponentielle naturelle
+            Courbe ultra naturelle :
+            adaptation biologique douce.
         */
 
-        const smooth =
-            1 - Math.pow(1 - progress, 2);
+        const smooth=
+            (1-Math.cos(progress*Math.PI))/2;
 
-        progressiveShift =
-            MAX_SHIFT_HOURS * smooth;
+        addedHours=
+            PARIS_OFFSET*smooth;
     }
 
-    // Heure progressive
-    const adaptedTime =
+    /*
+        HEURE EXACTE
+        => jamais de saut
+        => dérive parfaite
+    */
+
+    const adapted=
         new Date(
-            currentDate.getTime() +
-            progressiveShift * 3600000
+            now.getTime()+
+            addedHours*3600000
         );
 
-    // Format
-    const h =
-        String(adaptedTime.getHours())
-        .padStart(2,"0");
+    const h=
+    String(adapted.getHours())
+    .padStart(2,"0");
 
-    const m =
-        String(adaptedTime.getMinutes())
-        .padStart(2,"0");
+    const m=
+    String(adapted.getMinutes())
+    .padStart(2,"0");
 
     document.getElementById("clock")
-        .innerText = `${h}:${m}`;
+    .innerText=`${h}:${m}`;
 
-    // Ville dynamique
+    /* VILLES */
 
-    if(progress < 0.25){
-
-        document.getElementById("city")
-            .innerText = "NEW YORK";
-
-    }else if(progress < 0.75){
+    if(progress<0.15){
 
         document.getElementById("city")
-            .innerText =
-            "ATLANTIQUE NORD";
+        .innerText="NEW YORK";
+
+    }else if(progress<0.85){
+
+        document.getElementById("city")
+        .innerText="OCÉAN ATLANTIQUE";
 
     }else{
 
         document.getElementById("city")
-            .innerText = "PARIS";
+        .innerText="PARIS";
     }
 
-    // Barre progression
-
-    document.getElementById("bar")
-        .style.width = `${progress*100}%`;
+    /* UI */
 
     document.getElementById("percent")
-        .innerText =
-        `${Math.round(progress*100)}%`;
+    .innerText=
+    Math.round(progress*100)+"%";
 
-    // Texte intelligent
-
-    const shift =
-        progressiveShift.toFixed(1);
+    document.getElementById("bar")
+    .style.width=
+    progress*100+"%";
 
     document.getElementById("info")
-        .innerHTML =
-        `Adaptation biologique progressive<br>
-         Décalage actuel : +${shift}h`;
+    .innerHTML=
+    started
+    ? `Décalage progressif actuel : +${addedHours.toFixed(2)}h`
+    : `Le système attend le vrai décollage`;
 
-    requestAnimationFrame(updateClock);
+    requestAnimationFrame(update);
 }
 
-updateClock();
+update();
 
 </script>
 
