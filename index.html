@@ -622,15 +622,17 @@ for(let i=0;i<200;i++){
    CONFIG
 ====================================================== */
 
-const DESTINATION_OFFSET=6;
-const FLIGHT_DURATION_HOURS=7;
+const DESTINATION_OFFSET = 6;
+const FLIGHT_DURATION_HOURS = 7;
 
 /* ======================================================
    ÉTAT VOL
 ====================================================== */
 
-let started=false;
-let flightStart=0;
+let started = false;
+let flightStart = 0;
+
+let offlineTimer = null;
 
 /* ======================================================
    SAUVEGARDE AUTONOME
@@ -651,24 +653,24 @@ function saveState(){
 
 function loadState(){
 
-    const savedStart=
+    const savedStart =
     localStorage.getItem("flightStart");
 
-    const savedStarted=
+    const savedStarted =
     localStorage.getItem("flightStarted");
 
-    if(savedStart && savedStarted==="true"){
+    if(savedStart && savedStarted === "true"){
 
-        started=true;
+        started = true;
 
-        flightStart=Number(savedStart);
+        flightStart = Number(savedStart);
 
         document.getElementById("status")
-        .innerText=
+        .innerText =
         "Vol en cours • mode autonome";
 
         document.getElementById("backup")
-        .innerHTML=
+        .innerHTML =
         "Mode secours actif • fonctionnement hors ligne.";
     }
 }
@@ -676,26 +678,58 @@ function loadState(){
 loadState();
 
 /* ======================================================
-   DÉTECTION SMART
+   DÉTECTION ULTRA PRÉCISE
 ====================================================== */
 
 window.addEventListener("offline",()=>{
 
     document.getElementById("backup")
-    .innerHTML=
-    "Connexion perdue • bascule automatique en mode autonome.";
+    .innerHTML =
+    "Connexion perdue • vérification du décollage...";
 
-    setTimeout(()=>{
+    offlineTimer = setTimeout(()=>{
+
+        /*
+            si toujours hors ligne
+        */
 
         if(!navigator.onLine && !started){
 
-            startFlight();
+            const confirmFlight = confirm(
+                "Le vol a-t-il réellement décollé ?"
+            );
+
+            if(confirmFlight){
+
+                startFlight();
+
+            }else{
+
+                document.getElementById("backup")
+                .innerHTML =
+                "Mode attente • avion non détecté.";
+            }
         }
 
-    },120000);
+    },300000); // 5 minutes
 });
 
-/* double tap discret */
+/* ======================================================
+   RETOUR INTERNET
+====================================================== */
+
+window.addEventListener("online",()=>{
+
+    clearTimeout(offlineTimer);
+
+    document.getElementById("backup")
+    .innerHTML =
+    "Connexion détectée • attente du décollage.";
+});
+
+/* ======================================================
+   DOUBLE TAP MANUEL
+====================================================== */
 
 document.body.addEventListener(
 "dblclick",
@@ -703,7 +737,14 @@ document.body.addEventListener(
 
     if(!started){
 
-        startFlight();
+        const confirmFlight = confirm(
+            "Démarrer le mode vol ?"
+        );
+
+        if(confirmFlight){
+
+            startFlight();
+        }
     }
 });
 
@@ -713,18 +754,18 @@ document.body.addEventListener(
 
 function startFlight(){
 
-    started=true;
+    started = true;
 
-    flightStart=Date.now();
+    flightStart = Date.now();
 
     saveState();
 
     document.getElementById("status")
-    .innerText=
+    .innerText =
     "Vol détecté • synchronisation active";
 
     document.getElementById("backup")
-    .innerHTML=
+    .innerHTML =
     "Horloge autonome activée • aucune connexion nécessaire.";
 }
 
@@ -734,89 +775,89 @@ function startFlight(){
 
 function update(){
 
-    const now=new Date();
+    const now = new Date();
 
-    let progress=0;
-    let shift=0;
+    let progress = 0;
+    let shift = 0;
 
     if(started){
 
-        const elapsed=
-        Date.now()-flightStart;
+        const elapsed =
+        Date.now() - flightStart;
 
-        const total=
-        FLIGHT_DURATION_HOURS*
-        60*
-        60*
+        const total =
+        FLIGHT_DURATION_HOURS *
+        60 *
+        60 *
         1000;
 
-        progress=
-        Math.min(elapsed/total,1);
+        progress =
+        Math.min(elapsed / total,1);
 
         /*
             courbe ultra naturelle
         */
 
-        const smooth=
-        (1-Math.cos(progress*Math.PI))/2;
+        const smooth =
+        (1 - Math.cos(progress * Math.PI)) / 2;
 
-        shift=
-        DESTINATION_OFFSET*smooth;
+        shift =
+        DESTINATION_OFFSET * smooth;
     }
 
     /*
         heure fluide parfaite
     */
 
-    const adapted=
+    const adapted =
     new Date(
-        now.getTime()+
-        shift*3600000
+        now.getTime() +
+        shift * 3600000
     );
 
-    const h=
+    const h =
     String(adapted.getHours())
     .padStart(2,"0");
 
-    const m=
+    const m =
     String(adapted.getMinutes())
     .padStart(2,"0");
 
     document.getElementById("clock")
-    .innerText=`${h}:${m}`;
+    .innerText = `${h}:${m}`;
 
     /* villes */
 
-    if(progress<0.18){
+    if(progress < 0.18){
 
         document.getElementById("city")
-        .innerText="NEW YORK";
+        .innerText = "NEW YORK";
 
-    }else if(progress<0.82){
+    }else if(progress < 0.82){
 
         document.getElementById("city")
-        .innerText="ATLANTIQUE NORD";
+        .innerText = "ATLANTIQUE NORD";
 
     }else{
 
         document.getElementById("city")
-        .innerText="PARIS";
+        .innerText = "PARIS";
     }
 
-    /* progress */
+    /* progression */
 
     document.getElementById("bar")
-    .style.width=
-    progress*100+"%";
+    .style.width =
+    progress * 100 + "%";
 
     document.getElementById("percent")
-    .innerText=
-    Math.round(progress*100)+"%";
+    .innerText =
+    Math.round(progress * 100) + "%";
 
-    /* info */
+    /* infos */
 
     document.getElementById("info")
-    .innerHTML=
+    .innerHTML =
     started
     ? `Décalage actuel : +${shift.toFixed(2)}h • transition biologique ultra fluide`
     : `Le système attend le vrai départ de l’avion`;
