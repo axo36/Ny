@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Horloge fluide avec fuseaux exacts</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body { font-family: Arial; background:#0d1117; color:white; text-align:center; padding-top:40px; }
+  .clock { background:#161b22; padding:20px; margin:15px auto; width:280px; border-radius:12px; }
+  .time { font-size:32px; font-weight:bold; }
+  input { width:80%; margin-top:20px; }
+</style>
+</head>
+<body>
+
+<h2>Horloge fluide NY → France</h2>
+
+<div class="clock">
+  <div id="sim-time" class="time">--:--:--</div>
+</div>
+
+<label>Progression du vol (0% = New York, 100% = France)</label><br>
+<input type="range" id="progress" min="0" max="100" value="0">
+
+<script>
+  // vitesse : 1 seconde réelle = 5 minutes simulées
+  const acceleration = 5;
+
+  // fuseaux horaires traversés
+  const zones = [-4, -3, -2, -1, 0, 1, 2];
+
+  let simulated = new Date();
+
+  function update() {
+    simulated = new Date(simulated.getTime() + acceleration * 60000);
+
+    const p = document.getElementById("progress").value / 100;
+    const total = zones.length - 1;
+    const pos = p * total;
+
+    const index = Math.floor(pos);
+    const frac = pos - index;
+
+    const offset =
+      zones[index] * (1 - frac) +
+      zones[Math.min(index + 1, total)] * frac;
+
+    const local = new Date(simulated.getTime() + offset * 3600000);
+
+    const h = String(local.getHours()).padStart(2, '0');
+    const m = String(local.getMinutes()).padStart(2, '0');
+    const s = String(local.getSeconds()).padStart(2, '0');
+
+    document.getElementById("sim-time").textContent = `${h}:${m}:${s}`;
+  }
+
+  setInterval(update, 1000);
+</script>
+
+</body>
+</html>
