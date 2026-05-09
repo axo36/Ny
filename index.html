@@ -11,7 +11,7 @@ viewport-fit=cover,
 maximum-scale=1.0,
 user-scalable=no"/>
 
-<title>JETLAG AI • Barcelone</title>
+<title>JETLAG AI • Smart Flight</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -19,10 +19,6 @@ user-scalable=no"/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-
-/* ======================================================
-   RESET
-====================================================== */
 
 *{
     margin:0;
@@ -36,19 +32,12 @@ body{
     width:100%;
     height:100%;
     overflow:hidden;
-    background:#000814;
     font-family:'Inter',sans-serif;
+    background:#020617;
     color:white;
 }
 
-/* ======================================================
-   BACKGROUND
-====================================================== */
-
-.background{
-    position:fixed;
-    inset:0;
-    overflow:hidden;
+body{
 
     background:
     radial-gradient(circle at top,
@@ -57,66 +46,37 @@ body{
     #000000 100%);
 }
 
-/* ======================================================
-   GLOWS
-====================================================== */
+/* ===================================================== */
 
-.glow1,
-.glow2,
-.glow3{
+.background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+}
+
+.glow{
     position:absolute;
     border-radius:50%;
     filter:blur(120px);
 }
 
 .glow1{
-    width:520px;
-    height:520px;
-    background:rgba(96,165,250,0.18);
-    top:-180px;
-    left:-120px;
-    animation:float1 18s ease-in-out infinite;
+    width:500px;
+    height:500px;
+    background:rgba(96,165,250,0.16);
+    top:-200px;
+    left:-140px;
 }
 
 .glow2{
-    width:420px;
-    height:420px;
-    background:rgba(103,232,249,0.12);
-    bottom:-150px;
+    width:400px;
+    height:400px;
+    background:rgba(103,232,249,0.10);
     right:-120px;
-    animation:float2 22s ease-in-out infinite;
+    bottom:-120px;
 }
 
-.glow3{
-    width:280px;
-    height:280px;
-    background:rgba(255,255,255,0.05);
-    top:40%;
-    left:40%;
-    animation:float3 14s ease-in-out infinite;
-}
-
-@keyframes float1{
-    0%{transform:translate(0,0);}
-    50%{transform:translate(40px,30px);}
-    100%{transform:translate(0,0);}
-}
-
-@keyframes float2{
-    0%{transform:translate(0,0);}
-    50%{transform:translate(-35px,-45px);}
-    100%{transform:translate(0,0);}
-}
-
-@keyframes float3{
-    0%{transform:translate(0,0);}
-    50%{transform:translate(20px,-20px);}
-    100%{transform:translate(0,0);}
-}
-
-/* ======================================================
-   STARS
-====================================================== */
+/* ===================================================== */
 
 .star{
     position:absolute;
@@ -124,53 +84,46 @@ body{
     height:2px;
     border-radius:50%;
     background:white;
-    opacity:0.6;
+    opacity:0.7;
     animation:twinkle 3s infinite;
 }
 
 @keyframes twinkle{
+
     0%{opacity:0.2;}
     50%{opacity:1;}
     100%{opacity:0.2;}
 }
 
-/* ======================================================
-   AVION
-====================================================== */
+/* ===================================================== */
 
 .plane{
+
     position:absolute;
+
     top:18%;
+
     left:-100px;
+
     font-size:24px;
-    opacity:0.85;
 
-    animation:fly 28s linear infinite;
+    opacity:0.9;
 
-    filter:
-    drop-shadow(
-    0 0 12px rgba(255,255,255,0.4)
-    );
+    animation:fly 30s linear infinite;
 }
 
 @keyframes fly{
 
     from{
-        transform:translateX(0) translateY(0);
-    }
-
-    50%{
-        transform:translateX(60vw) translateY(-12px);
+        transform:translateX(0);
     }
 
     to{
-        transform:translateX(140vw) translateY(0);
+        transform:translateX(140vw);
     }
 }
 
-/* ======================================================
-   APP
-====================================================== */
+/* ===================================================== */
 
 .app{
 
@@ -182,17 +135,14 @@ body{
 
     display:flex;
     flex-direction:column;
-    justify-content:space-between;
 
     padding:
-    max(26px, env(safe-area-inset-top))
+    max(24px, env(safe-area-inset-top))
     18px
-    max(28px, env(safe-area-inset-bottom));
+    max(24px, env(safe-area-inset-bottom));
 }
 
-/* ======================================================
-   TOP
-====================================================== */
+/* ===================================================== */
 
 .top{
 
@@ -200,24 +150,23 @@ body{
     flex-direction:column;
     align-items:center;
 
-    gap:18px;
+    gap:16px;
 }
 
 .logo{
 
     font-size:1rem;
+
     letter-spacing:8px;
-    opacity:0.72;
+
+    opacity:0.75;
+
     font-weight:600;
 }
 
 .status{
 
-    display:flex;
-    align-items:center;
-    gap:10px;
-
-    padding:14px 20px;
+    padding:14px 22px;
 
     border-radius:999px;
 
@@ -230,30 +179,7 @@ body{
     font-size:0.92rem;
 }
 
-.dot{
-
-    width:10px;
-    height:10px;
-
-    border-radius:50%;
-
-    background:#22c55e;
-
-    box-shadow:0 0 14px #22c55e;
-
-    animation:pulse 1.8s infinite;
-}
-
-@keyframes pulse{
-
-    0%{transform:scale(1);}
-    50%{transform:scale(1.5);}
-    100%{transform:scale(1);}
-}
-
-/* ======================================================
-   CENTER
-====================================================== */
+/* ===================================================== */
 
 .center{
 
@@ -266,26 +192,20 @@ body{
     padding:18px 0;
 }
 
-/* ======================================================
-   CLOCK CARD
-====================================================== */
+/* ===================================================== */
 
-.clock-card{
-
-    position:relative;
+.card{
 
     width:100%;
     height:100%;
 
-    border-radius:42px;
-
-    overflow:hidden;
+    border-radius:40px;
 
     background:
     linear-gradient(
         180deg,
         rgba(255,255,255,0.10),
-        rgba(255,255,255,0.05)
+        rgba(255,255,255,0.04)
     );
 
     border:1px solid rgba(255,255,255,0.10);
@@ -297,11 +217,12 @@ body{
     justify-content:space-evenly;
     align-items:center;
 
-    box-shadow:
-    0 0 90px rgba(96,165,250,0.12);
+    overflow:hidden;
+
+    position:relative;
 }
 
-.clock-card::before{
+.card::before{
 
     content:"";
 
@@ -313,8 +234,6 @@ body{
     width:180%;
     height:40%;
 
-    transform:rotate(-12deg);
-
     background:
     linear-gradient(
         90deg,
@@ -322,6 +241,8 @@ body{
         rgba(255,255,255,0.08),
         transparent
     );
+
+    transform:rotate(-12deg);
 
     animation:shine 10s linear infinite;
 }
@@ -341,9 +262,7 @@ body{
     }
 }
 
-/* ======================================================
-   TEXT
-====================================================== */
+/* ===================================================== */
 
 .label{
 
@@ -351,7 +270,7 @@ body{
 
     letter-spacing:6px;
 
-    opacity:0.72;
+    opacity:0.7;
 }
 
 .clock{
@@ -360,14 +279,11 @@ body{
 
     font-weight:700;
 
-    letter-spacing:4px;
-
     line-height:1;
 
     text-shadow:
     0 0 18px rgba(255,255,255,0.15),
-    0 0 40px rgba(96,165,250,0.42),
-    0 0 70px rgba(103,232,249,0.20);
+    0 0 40px rgba(96,165,250,0.40);
 }
 
 .city{
@@ -376,14 +292,31 @@ body{
 
     letter-spacing:6px;
 
-    opacity:0.75;
+    opacity:0.78;
 }
 
-/* ======================================================
-   PROGRESS
-====================================================== */
+/* ===================================================== */
 
-.progress-container{
+.zone{
+
+    padding:14px 18px;
+
+    border-radius:24px;
+
+    background:rgba(255,255,255,0.06);
+
+    border:1px solid rgba(255,255,255,0.08);
+
+    font-size:0.92rem;
+
+    text-align:center;
+
+    width:88%;
+}
+
+/* ===================================================== */
+
+.progress-wrap{
 
     width:88%;
 }
@@ -393,7 +326,7 @@ body{
     display:flex;
     justify-content:space-between;
 
-    margin-bottom:16px;
+    margin-bottom:14px;
 
     font-size:0.95rem;
 }
@@ -403,14 +336,14 @@ body{
     width:100%;
     height:14px;
 
-    border-radius:999px;
-
     overflow:hidden;
+
+    border-radius:999px;
 
     background:rgba(255,255,255,0.08);
 }
 
-.progress-bar{
+.bar{
 
     width:0%;
     height:100%;
@@ -424,18 +357,13 @@ body{
         #60a5fa,
         #67e8f9
     );
-
-    box-shadow:
-    0 0 18px rgba(96,165,250,0.4);
 }
 
-/* ======================================================
-   INFOS
-====================================================== */
+/* ===================================================== */
 
 .info{
 
-    width:82%;
+    width:84%;
 
     text-align:center;
 
@@ -443,33 +371,10 @@ body{
 
     font-size:0.95rem;
 
-    opacity:0.74;
+    opacity:0.75;
 }
 
-.backup{
-
-    width:88%;
-
-    padding:16px 20px;
-
-    border-radius:24px;
-
-    background:rgba(255,255,255,0.05);
-
-    border:1px solid rgba(255,255,255,0.08);
-
-    text-align:center;
-
-    line-height:1.7;
-
-    font-size:0.9rem;
-
-    opacity:0.78;
-}
-
-/* ======================================================
-   RESPONSIVE
-====================================================== */
+/* ===================================================== */
 
 @media(max-width:430px){
 
@@ -486,9 +391,8 @@ body{
 
 <div class="background">
 
-    <div class="glow1"></div>
-    <div class="glow2"></div>
-    <div class="glow3"></div>
+    <div class="glow glow1"></div>
+    <div class="glow glow2"></div>
 
 </div>
 
@@ -496,31 +400,21 @@ body{
 
 <div class="app">
 
-    <!-- TOP -->
-
     <div class="top">
 
         <div class="logo">
             JETLAG AI
         </div>
 
-        <div class="status">
-
-            <div class="dot"></div>
-
-            <span id="status">
-                Vol en cours • synchronisation exacte
-            </span>
-
+        <div class="status" id="status">
+            Vol détecté • synchronisation intelligente
         </div>
 
     </div>
 
-    <!-- CENTER -->
-
     <div class="center">
 
-        <div class="clock-card">
+        <div class="card">
 
             <div class="label">
                 HEURE CIRCADIENNE
@@ -534,13 +428,15 @@ body{
                 ATLANTIQUE NORD
             </div>
 
-            <div class="progress-container">
+            <div class="zone" id="zone">
+                Fuseau horaire survolé : UTC-4
+            </div>
+
+            <div class="progress-wrap">
 
                 <div class="row">
 
-                    <span>
-                        Adaptation biologique
-                    </span>
+                    <span>Progression du vol</span>
 
                     <span id="percent">
                         0%
@@ -550,8 +446,7 @@ body{
 
                 <div class="progress">
 
-                    <div class="progress-bar"
-                    id="bar"></div>
+                    <div class="bar" id="bar"></div>
 
                 </div>
 
@@ -559,13 +454,7 @@ body{
 
             <div class="info" id="info">
 
-                Synchronisation ultra fluide du rythme biologique entre New York et Barcelone.
-
-            </div>
-
-            <div class="backup" id="backup">
-
-                Mode autonome activé • fonctionnement hors ligne total.
+                Synchronisation biologique ultra fluide.
 
             </div>
 
@@ -577,11 +466,11 @@ body{
 
 <script>
 
-/* ======================================================
+/* =====================================================
    ÉTOILES
-====================================================== */
+===================================================== */
 
-for(let i=0;i<200;i++){
+for(let i=0;i<220;i++){
 
     const star=document.createElement("div");
 
@@ -598,165 +487,313 @@ for(let i=0;i<200;i++){
     document.body.appendChild(star);
 }
 
-/* ======================================================
-   CONFIG VOL RÉEL
-====================================================== */
+/* =====================================================
+   CONFIG RÉELLE DU VOL
+===================================================== */
 
 /*
-    Temps restant ACTUEL :
-    7h13 avant Barcelone
+
+    Départ :
+    18h50 New York
+
+    Heure actuelle :
+    19h34 New York
+
+    Temps restant :
+    7h09
+
 */
 
-const REMAINING_HOURS = 7;
-const REMAINING_MINUTES = 13;
-
 /*
-    durée restante
+    Temps déjà écoulé :
+    44 minutes
 */
 
-const REMAINING_TIME_MS =
-(
-    (REMAINING_HOURS * 60)
-    +
-    REMAINING_MINUTES
-)
-*
-60
-*
-1000;
+const ELAPSED_MINUTES = 44;
 
 /*
-    Décalage :
-    New York -> Barcelone
+    Temps restant :
+*/
+
+const REMAINING_MINUTES =
+
+(7 * 60)
++
+9;
+
+/*
+    Temps total exact :
+*/
+
+const TOTAL_MINUTES =
+
+ELAPSED_MINUTES
++
+REMAINING_MINUTES;
+
+/*
+    Décalage Barcelone
 */
 
 const DESTINATION_OFFSET = 6;
 
-/* ======================================================
-   START
-====================================================== */
+/* =====================================================
+   DÉPART EXACT
+===================================================== */
 
-const flightStart = Date.now();
+const flightStart =
 
-/* ======================================================
-   HORLOGE
-====================================================== */
+Date.now()
+-
+(
+    ELAPSED_MINUTES
+    *
+    60
+    *
+    1000
+);
+
+/* =====================================================
+   FUSEAUX HORAIRES
+===================================================== */
+
+function getZone(progress){
+
+    if(progress < 0.15){
+
+        return {
+            city:"NEW YORK",
+            zone:"Fuseau horaire survolé : UTC-4"
+        };
+    }
+
+    if(progress < 0.35){
+
+        return {
+            city:"OCÉAN ATLANTIQUE",
+            zone:"Fuseau horaire survolé : UTC-3"
+        };
+    }
+
+    if(progress < 0.55){
+
+        return {
+            city:"ATLANTIQUE CENTRAL",
+            zone:"Fuseau horaire survolé : UTC-2"
+        };
+    }
+
+    if(progress < 0.72){
+
+        return {
+            city:"ATLANTIQUE EST",
+            zone:"Fuseau horaire survolé : UTC-1"
+        };
+    }
+
+    if(progress < 0.88){
+
+        return {
+            city:"EUROPE",
+            zone:"Fuseau horaire survolé : UTC+0"
+        };
+    }
+
+    return {
+        city:"BARCELONE",
+        zone:"Fuseau horaire survolé : UTC+1"
+    };
+}
+
+/* =====================================================
+   HORLOGE ULTRA FLUIDE
+===================================================== */
 
 function update(){
 
     const now = new Date();
 
-    const elapsed =
-    Date.now() - flightStart;
+    /*
+        temps écoulé
+    */
+
+    const elapsedMs =
+
+    Date.now()
+    -
+    flightStart;
 
     /*
         progression réelle
     */
 
     const progress =
+
     Math.min(
-        elapsed / REMAINING_TIME_MS,
+        elapsedMs
+        /
+        (
+            TOTAL_MINUTES
+            *
+            60
+            *
+            1000
+        ),
         1
     );
 
     /*
-        ultra fluide
+        courbe ultra fluide
     */
 
     const smooth =
-    (1 - Math.cos(progress * Math.PI)) / 2;
+
+    (
+        1
+        -
+        Math.cos(progress * Math.PI)
+    )
+    /
+    2;
 
     /*
         décalage progressif
     */
 
     const shift =
-    DESTINATION_OFFSET * smooth;
+
+    DESTINATION_OFFSET
+    *
+    smooth;
 
     /*
         heure adaptée
     */
 
     const adapted =
+
     new Date(
-        now.getTime() +
-        (shift * 3600000)
+        now.getTime()
+        +
+        (
+            shift
+            *
+            3600000
+        )
     );
 
     const h =
-    String(adapted.getHours())
+
+    String(
+        adapted.getHours()
+    )
     .padStart(2,"0");
 
     const m =
-    String(adapted.getMinutes())
+
+    String(
+        adapted.getMinutes()
+    )
     .padStart(2,"0");
 
     document.getElementById("clock")
-    .innerText = `${h}:${m}`;
+    .innerText =
+    `${h}:${m}`;
 
-    /* ======================================================
-       VILLE
-    ====================================================== */
+    /* =====================================================
+       FUSEAU
+    ===================================================== */
 
-    if(progress < 0.20){
+    const zoneData =
+    getZone(progress);
 
-        document.getElementById("city")
-        .innerText = "NEW YORK";
+    document.getElementById("city")
+    .innerText =
+    zoneData.city;
 
-    }else if(progress < 0.90){
+    document.getElementById("zone")
+    .innerText =
+    zoneData.zone;
 
-        document.getElementById("city")
-        .innerText = "ATLANTIQUE";
-
-    }else{
-
-        document.getElementById("city")
-        .innerText = "BARCELONE";
-    }
-
-    /* ======================================================
-       PROGRESS
-    ====================================================== */
+    /* =====================================================
+       PROGRESSION
+    ===================================================== */
 
     document.getElementById("bar")
     .style.width =
-    progress * 100 + "%";
+    (
+        progress
+        *
+        100
+    )
+    +
+    "%";
 
     document.getElementById("percent")
     .innerText =
-    Math.round(progress * 100) + "%";
+    Math.round(progress * 100)
+    +
+    "%";
 
-    /* ======================================================
-       INFOS
-    ====================================================== */
+    /* =====================================================
+       TEMPS RESTANT
+    ===================================================== */
 
     const remainingMs =
+
     Math.max(
-        REMAINING_TIME_MS - elapsed,
+        (
+            TOTAL_MINUTES
+            *
+            60
+            *
+            1000
+        )
+        -
+        elapsedMs,
         0
     );
 
     const remainingHours =
+
     Math.floor(
-        remainingMs / 3600000
+        remainingMs
+        /
+        3600000
     );
 
     const remainingMinutes =
+
     Math.floor(
-        (remainingMs % 3600000)
-        / 60000
+        (
+            remainingMs
+            %
+            3600000
+        )
+        /
+        60000
     );
+
+    /* =====================================================
+       INFOS
+    ===================================================== */
 
     document.getElementById("info")
     .innerHTML =
+
     `
-    Décalage actuel :
+    Décalage biologique actuel :
     +${shift.toFixed(2)}h
 
-    •
+    <br><br>
 
-    Arrivée Barcelone dans
+    Temps restant :
     ${remainingHours}h${String(remainingMinutes).padStart(2,"0")}
+
+    <br><br>
+
+    Progression réelle du vol :
+    ${Math.round(progress * 100)}%
     `;
 
     requestAnimationFrame(update);
