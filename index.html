@@ -11,7 +11,7 @@ viewport-fit=cover,
 maximum-scale=1.0,
 user-scalable=no"/>
 
-<title>JETLAG AI • Smart Flight</title>
+<title>JETLAG AI • Live Flight</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -37,6 +37,8 @@ body{
     color:white;
 }
 
+/* ===================================================== */
+
 body{
 
     background:
@@ -54,6 +56,8 @@ body{
     overflow:hidden;
 }
 
+/* ===================================================== */
+
 .glow{
     position:absolute;
     border-radius:50%;
@@ -61,19 +65,19 @@ body{
 }
 
 .glow1{
-    width:500px;
-    height:500px;
-    background:rgba(96,165,250,0.16);
-    top:-200px;
-    left:-140px;
+    width:520px;
+    height:520px;
+    background:rgba(96,165,250,0.18);
+    top:-180px;
+    left:-120px;
 }
 
 .glow2{
-    width:400px;
-    height:400px;
-    background:rgba(103,232,249,0.10);
-    right:-120px;
+    width:420px;
+    height:420px;
+    background:rgba(103,232,249,0.12);
     bottom:-120px;
+    right:-120px;
 }
 
 /* ===================================================== */
@@ -84,7 +88,7 @@ body{
     height:2px;
     border-radius:50%;
     background:white;
-    opacity:0.7;
+    opacity:0.6;
     animation:twinkle 3s infinite;
 }
 
@@ -109,7 +113,7 @@ body{
 
     opacity:0.9;
 
-    animation:fly 30s linear infinite;
+    animation:fly 28s linear infinite;
 }
 
 @keyframes fly{
@@ -299,7 +303,9 @@ body{
 
 .zone{
 
-    padding:14px 18px;
+    width:88%;
+
+    padding:16px 18px;
 
     border-radius:24px;
 
@@ -307,11 +313,11 @@ body{
 
     border:1px solid rgba(255,255,255,0.08);
 
-    font-size:0.92rem;
-
     text-align:center;
 
-    width:88%;
+    line-height:1.8;
+
+    font-size:0.92rem;
 }
 
 /* ===================================================== */
@@ -336,9 +342,9 @@ body{
     width:100%;
     height:14px;
 
-    overflow:hidden;
-
     border-radius:999px;
+
+    overflow:hidden;
 
     background:rgba(255,255,255,0.08);
 }
@@ -406,8 +412,8 @@ body{
             JETLAG AI
         </div>
 
-        <div class="status" id="status">
-            Vol détecté • synchronisation intelligente
+        <div class="status">
+            Vol en cours • calcul réel automatique
         </div>
 
     </div>
@@ -425,18 +431,28 @@ body{
             </div>
 
             <div class="city" id="city">
-                ATLANTIQUE NORD
+                NEW YORK
             </div>
 
             <div class="zone" id="zone">
-                Fuseau horaire survolé : UTC-4
+
+                Fuseau actuel :
+                UTC-4
+
+                <br><br>
+
+                Heure locale du fuseau :
+                00:00
+
             </div>
 
             <div class="progress-wrap">
 
                 <div class="row">
 
-                    <span>Progression du vol</span>
+                    <span>
+                        Progression réelle du vol
+                    </span>
 
                     <span id="percent">
                         0%
@@ -454,7 +470,7 @@ body{
 
             <div class="info" id="info">
 
-                Synchronisation biologique ultra fluide.
+                Synchronisation biologique intelligente.
 
             </div>
 
@@ -488,41 +504,40 @@ for(let i=0;i<220;i++){
 }
 
 /* =====================================================
-   CONFIG RÉELLE DU VOL
+   INFOS EXACTES DU VOL
 ===================================================== */
 
 /*
 
     Départ :
-    18h50 New York
+    18:50 New York
 
     Heure actuelle :
-    19h34 New York
+    19:45 New York
 
     Temps restant :
-    7h09
+    6h53
 
 */
 
 /*
-    Temps déjà écoulé :
-    44 minutes
+    Temps déjà écoulé
 */
 
-const ELAPSED_MINUTES = 44;
+const ELAPSED_MINUTES = 55;
 
 /*
-    Temps restant :
+    Temps restant
 */
 
 const REMAINING_MINUTES =
 
-(7 * 60)
+(6 * 60)
 +
-9;
+53;
 
 /*
-    Temps total exact :
+    Temps total exact du vol
 */
 
 const TOTAL_MINUTES =
@@ -532,13 +547,14 @@ ELAPSED_MINUTES
 REMAINING_MINUTES;
 
 /*
-    Décalage Barcelone
+    Décalage :
+    New York -> Barcelone
 */
 
 const DESTINATION_OFFSET = 6;
 
 /* =====================================================
-   DÉPART EXACT
+   DÉPART RÉEL
 ===================================================== */
 
 const flightStart =
@@ -559,54 +575,72 @@ Date.now()
 
 function getZone(progress){
 
-    if(progress < 0.15){
+    if(progress < 0.14){
 
         return {
             city:"NEW YORK",
-            zone:"Fuseau horaire survolé : UTC-4"
+            offset:-4
         };
     }
 
-    if(progress < 0.35){
+    if(progress < 0.28){
 
         return {
-            city:"OCÉAN ATLANTIQUE",
-            zone:"Fuseau horaire survolé : UTC-3"
+            city:"ATLANTIQUE OUEST",
+            offset:-3
         };
     }
 
-    if(progress < 0.55){
+    if(progress < 0.44){
 
         return {
             city:"ATLANTIQUE CENTRAL",
-            zone:"Fuseau horaire survolé : UTC-2"
+            offset:-2
         };
     }
 
-    if(progress < 0.72){
+    if(progress < 0.62){
 
         return {
             city:"ATLANTIQUE EST",
-            zone:"Fuseau horaire survolé : UTC-1"
+            offset:-1
         };
     }
 
-    if(progress < 0.88){
+    if(progress < 0.80){
 
         return {
-            city:"EUROPE",
-            zone:"Fuseau horaire survolé : UTC+0"
+            city:"EUROPE OUEST",
+            offset:0
         };
     }
 
     return {
+
         city:"BARCELONE",
-        zone:"Fuseau horaire survolé : UTC+1"
+        offset:1
     };
 }
 
 /* =====================================================
-   HORLOGE ULTRA FLUIDE
+   FORMAT HEURE
+===================================================== */
+
+function formatTime(date){
+
+    const h =
+    String(date.getHours())
+    .padStart(2,"0");
+
+    const m =
+    String(date.getMinutes())
+    .padStart(2,"0");
+
+    return `${h}:${m}`;
+}
+
+/* =====================================================
+   HORLOGE
 ===================================================== */
 
 function update(){
@@ -614,7 +648,7 @@ function update(){
     const now = new Date();
 
     /*
-        temps écoulé
+        Temps écoulé
     */
 
     const elapsedMs =
@@ -624,7 +658,7 @@ function update(){
     flightStart;
 
     /*
-        progression réelle
+        Progression réelle
     */
 
     const progress =
@@ -643,7 +677,7 @@ function update(){
     );
 
     /*
-        courbe ultra fluide
+        Courbe fluide naturelle
     */
 
     const smooth =
@@ -657,7 +691,7 @@ function update(){
     2;
 
     /*
-        décalage progressif
+        Décalage progressif
     */
 
     const shift =
@@ -667,7 +701,7 @@ function update(){
     smooth;
 
     /*
-        heure adaptée
+        Heure biologique adaptée
     */
 
     const adapted =
@@ -682,26 +716,12 @@ function update(){
         )
     );
 
-    const h =
-
-    String(
-        adapted.getHours()
-    )
-    .padStart(2,"0");
-
-    const m =
-
-    String(
-        adapted.getMinutes()
-    )
-    .padStart(2,"0");
-
     document.getElementById("clock")
     .innerText =
-    `${h}:${m}`;
+    formatTime(adapted);
 
     /* =====================================================
-       FUSEAU
+       FUSEAU ACTUEL
     ===================================================== */
 
     const zoneData =
@@ -711,12 +731,44 @@ function update(){
     .innerText =
     zoneData.city;
 
+    /*
+        Heure réelle du fuseau
+    */
+
+    const nyUtc = -4;
+
+    const realZoneTime =
+
+    new Date(
+        now.getTime()
+        +
+        (
+            (
+                zoneData.offset
+                -
+                nyUtc
+            )
+            *
+            3600000
+        )
+    );
+
     document.getElementById("zone")
-    .innerText =
-    zoneData.zone;
+    .innerHTML =
+
+    `
+    Fuseau actuel :
+    UTC${zoneData.offset >= 0 ? "+" : ""}
+    ${zoneData.offset}
+
+    <br><br>
+
+    Heure locale du fuseau :
+    ${formatTime(realZoneTime)}
+    `;
 
     /* =====================================================
-       PROGRESSION
+       BARRE
     ===================================================== */
 
     document.getElementById("bar")
@@ -731,7 +783,12 @@ function update(){
 
     document.getElementById("percent")
     .innerText =
-    Math.round(progress * 100)
+    (
+        progress
+        *
+        100
+    )
+    .toFixed(1)
     +
     "%";
 
@@ -787,13 +844,18 @@ function update(){
 
     <br><br>
 
-    Temps restant :
+    Temps restant avant Barcelone :
     ${remainingHours}h${String(remainingMinutes).padStart(2,"0")}
 
     <br><br>
 
-    Progression réelle du vol :
-    ${Math.round(progress * 100)}%
+    Temps de vol total :
+    ${TOTAL_MINUTES} min
+
+    <br><br>
+
+    Progression exacte :
+    ${(progress * 100).toFixed(2)}%
     `;
 
     requestAnimationFrame(update);
