@@ -3,7 +3,6 @@
 <head>
 
 <meta charset="UTF-8"/>
-
 <meta name="viewport"
 content="width=device-width,
 initial-scale=1.0,
@@ -571,8 +570,6 @@ body{
 
             </div>
 
-            <!-- MODE SECOURS -->
-
             <div class="backup" id="backup">
 
                 Système de secours prêt •
@@ -627,21 +624,6 @@ let flightStart=0;
    SYSTÈME DE SECOURS
 ========================================================= */
 
-/*
-    Le système sauvegarde tout localement :
-
-    - heure départ
-    - progression
-    - état vol
-
-    Donc :
-    même sans wifi
-    même sans réseau
-    même en mode avion
-
-    => tout continue parfaitement.
-*/
-
 function saveState(){
 
     localStorage.setItem(
@@ -683,13 +665,6 @@ loadState();
 /* =========================================================
    DÉTECTION SMART
 ========================================================= */
-
-/*
-    Départ SEULEMENT si :
-
-    - perte internet prolongée
-    - ET écran réactivé
-*/
 
 window.addEventListener("offline",()=>{
 
@@ -765,21 +740,12 @@ function update(){
         progress=
         Math.min(elapsed/total,1);
 
-        /*
-            Courbe naturelle :
-            aucune cassure
-        */
-
         const smooth=
         (1-Math.cos(progress*Math.PI))/2;
 
         shift=
         DESTINATION_OFFSET*smooth;
     }
-
-    /*
-        Heure progressive parfaite
-    */
 
     const adapted=
     new Date(
@@ -798,8 +764,6 @@ function update(){
     document.getElementById("clock")
     .innerText=`${h}:${m}`;
 
-    /* ville */
-
     if(progress<0.18){
 
         document.getElementById("city")
@@ -816,8 +780,6 @@ function update(){
         .innerText="PARIS";
     }
 
-    /* progression */
-
     document.getElementById("bar")
     .style.width=
     progress*100+"%";
@@ -825,8 +787,6 @@ function update(){
     document.getElementById("percent")
     .innerText=
     Math.round(progress*100)+"%";
-
-    /* info */
 
     document.getElementById("info")
     .innerHTML=
