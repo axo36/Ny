@@ -2,180 +2,438 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Horloge Vol NYC → Paris</title>
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+
+<title>Flight Sync</title>
 
 <style>
-    *{
-        margin:0;
-        padding:0;
-        box-sizing:border-box;
-    }
 
-    body{
-        background:#050816;
-        color:white;
-        font-family:Arial, Helvetica, sans-serif;
-        height:100vh;
-        display:flex;
-        justify-content:center;
-        align-items:center;
-        overflow:hidden;
-    }
+:root{
+    --bg1:#050816;
+    --bg2:#0f172a;
+    --blue:#4da3ff;
+    --white:#ffffff;
+    --glass:rgba(255,255,255,0.08);
+}
 
-    .container{
-        text-align:center;
-    }
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    -webkit-tap-highlight-color: transparent;
+}
 
-    .label{
-        font-size:1.3rem;
-        opacity:0.7;
-        margin-bottom:20px;
-        letter-spacing:2px;
-    }
+body{
+    font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",sans-serif;
+    background:
+        radial-gradient(circle at top,
+        #12203f 0%,
+        #050816 45%,
+        #01030b 100%);
+    color:white;
+    height:100vh;
+    overflow:hidden;
+}
+
+.app{
+    height:100vh;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:
+        max(20px, env(safe-area-inset-top))
+        20px
+        max(30px, env(safe-area-inset-bottom));
+}
+
+/* HEADER */
+
+.top{
+    text-align:center;
+    margin-top:10px;
+}
+
+.flight{
+    font-size:0.95rem;
+    opacity:0.75;
+    letter-spacing:3px;
+    margin-bottom:12px;
+}
+
+.status{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 14px;
+    border-radius:999px;
+    background:var(--glass);
+    backdrop-filter: blur(10px);
+    font-size:0.85rem;
+}
+
+.dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#44ff88;
+    box-shadow:0 0 12px #44ff88;
+    animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+    0%{transform:scale(1);opacity:1;}
+    50%{transform:scale(1.5);opacity:0.5;}
+    100%{transform:scale(1);opacity:1;}
+}
+
+/* CLOCK */
+
+.center{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    flex:1;
+}
+
+.clock{
+    font-size:4.8rem;
+    font-weight:700;
+    letter-spacing:2px;
+    line-height:1;
+    text-shadow:
+        0 0 10px rgba(255,255,255,0.15),
+        0 0 30px rgba(77,163,255,0.35);
+}
+
+.city{
+    margin-top:18px;
+    font-size:1rem;
+    opacity:0.7;
+    letter-spacing:2px;
+}
+
+/* PROGRESSION */
+
+.bottom{
+    width:100%;
+}
+
+.card{
+    width:100%;
+    border-radius:28px;
+    padding:22px;
+    background:rgba(255,255,255,0.06);
+    backdrop-filter: blur(18px);
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+.row{
+    display:flex;
+    justify-content:space-between;
+    margin-bottom:16px;
+    font-size:0.95rem;
+}
+
+.progress{
+    width:100%;
+    height:10px;
+    background:rgba(255,255,255,0.08);
+    border-radius:999px;
+    overflow:hidden;
+}
+
+.progress-bar{
+    height:100%;
+    width:0%;
+    border-radius:999px;
+    background:
+        linear-gradient(
+            90deg,
+            #3b82f6,
+            #60a5fa,
+            #93c5fd
+        );
+}
+
+.info{
+    margin-top:16px;
+    text-align:center;
+    opacity:0.75;
+    font-size:0.9rem;
+    line-height:1.5;
+}
+
+/* iPhone 12 optimisations */
+
+@media (max-width:430px){
 
     .clock{
-        font-size:7rem;
-        font-weight:700;
-        letter-spacing:6px;
-        text-shadow:
-            0 0 10px rgba(255,255,255,0.3),
-            0 0 20px rgba(0,140,255,0.5),
-            0 0 40px rgba(0,140,255,0.4);
-        transition: all 0.1s linear;
+        font-size:4rem;
     }
 
-    .progress{
-        margin-top:40px;
-        width:400px;
-        height:8px;
-        background:rgba(255,255,255,0.1);
-        border-radius:999px;
-        overflow:hidden;
+    .card{
+        padding:20px;
     }
 
-    .progress-bar{
-        height:100%;
-        width:0%;
-        background:linear-gradient(90deg,#00c6ff,#0072ff);
-        transition:width 1s linear;
-    }
-
-    .info{
-        margin-top:18px;
-        opacity:0.7;
-        font-size:1rem;
-    }
+}
 
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="app">
 
-    <div class="label">
-        VOL NEW YORK → PARIS
+    <!-- TOP -->
+
+    <div class="top">
+
+        <div class="flight">
+            SMART FLIGHT CLOCK
+        </div>
+
+        <div class="status">
+            <div class="dot"></div>
+            <span id="statusText">
+                Synchronisation intelligente
+            </span>
+        </div>
+
     </div>
 
-    <div class="clock" id="clock">
-        00:00:00
+    <!-- CENTER -->
+
+    <div class="center">
+
+        <div class="clock" id="clock">
+            00:00
+        </div>
+
+        <div class="city" id="city">
+            Préparation du vol...
+        </div>
+
     </div>
 
-    <div class="progress">
-        <div class="progress-bar" id="bar"></div>
-    </div>
+    <!-- BOTTOM -->
 
-    <div class="info" id="info">
-        Transition horaire fluide...
+    <div class="bottom">
+
+        <div class="card">
+
+            <div class="row">
+                <span>Progression adaptation</span>
+                <span id="percent">0%</span>
+            </div>
+
+            <div class="progress">
+                <div class="progress-bar" id="bar"></div>
+            </div>
+
+            <div class="info" id="info">
+                Analyse du fuseau horaire...
+            </div>
+
+        </div>
+
     </div>
 
 </div>
 
 <script>
 
-    /*
-        CONFIGURATION
-    */
+/* =======================================================
+   CONFIG SMART VOL
+======================================================= */
 
-    // Durée totale du vol (en heures)
-    const FLIGHT_DURATION_HOURS = 7;
+// Destination
+const DESTINATION_TIMEZONE = "Europe/Paris";
 
-    // Décalage Paris par rapport à New York
-    // (souvent +6h)
-    const TIME_OFFSET_HOURS = 6;
+// Durée estimée du vol NYC -> Paris
+const ESTIMATED_FLIGHT_HOURS = 7;
 
-    // Heure de départ du vol
-    const flightStart = Date.now();
+// Décalage max progressif
+const MAX_SHIFT_HOURS = 6;
 
-    // Durée du vol en millisecondes
-    const flightDurationMs =
-        FLIGHT_DURATION_HOURS * 60 * 60 * 1000;
+/* =======================================================
+   VARIABLES
+======================================================= */
 
-    function updateClock(){
+let flightStarted = false;
+let flightStartTime = null;
 
-        const now = Date.now();
+/* =======================================================
+   DÉTECTION INTELLIGENTE
+======================================================= */
 
-        // Temps écoulé depuis le départ
-        const elapsed = now - flightStart;
+/*
+    Le système démarre automatiquement
+    quand :
 
-        // Progression du vol entre 0 et 1
-        let progress = elapsed / flightDurationMs;
+    - l'utilisateur ouvre le site
+    - puis reste hors ligne
+    - ou garde l'écran longtemps
+    - ou clique une fois
 
-        // Limite à 100%
-        if(progress > 1) progress = 1;
+    Ça donne l'impression d'un système
+    autonome même sans wifi.
+*/
+
+function startFlightMode(){
+
+    if(flightStarted) return;
+
+    flightStarted = true;
+
+    flightStartTime = Date.now();
+
+    localStorage.setItem(
+        "flightStartTime",
+        flightStartTime
+    );
+
+    document.getElementById("statusText")
+        .innerText = "Mode vol actif";
+
+}
+
+/* =======================================================
+   RESTORE SI REOUVERT
+======================================================= */
+
+const savedFlight =
+    localStorage.getItem("flightStartTime");
+
+if(savedFlight){
+
+    flightStarted = true;
+    flightStartTime = Number(savedFlight);
+
+    document.getElementById("statusText")
+        .innerText = "Vol repris automatiquement";
+}
+
+/* =======================================================
+   AUTO START
+======================================================= */
+
+// Si plus internet → probablement avion
+
+window.addEventListener("offline", () => {
+    startFlightMode();
+});
+
+// Premier toucher écran
+
+document.body.addEventListener("touchstart", () => {
+    startFlightMode();
+}, { once:true });
+
+/* =======================================================
+   HORLOGE PRINCIPALE
+======================================================= */
+
+function updateClock(){
+
+    const now = Date.now();
+
+    // Heure locale actuelle
+    const currentDate = new Date();
+
+    let progressiveShift = 0;
+    let progress = 0;
+
+    // Si vol commencé
+    if(flightStarted){
+
+        const elapsed =
+            now - flightStartTime;
+
+        const total =
+            ESTIMATED_FLIGHT_HOURS *
+            60 *
+            60 *
+            1000;
+
+        progress =
+            Math.min(elapsed / total, 1);
 
         /*
-            TRANSITION FLUIDE
-
-            Au début :
-            +0h
-
-            À la fin :
-            +6h
-
-            Entre les deux :
-            interpolation progressive
+            Transition fluide
+            exponentielle naturelle
         */
 
-        const smoothOffsetHours =
-            TIME_OFFSET_HOURS * progress;
+        const smooth =
+            1 - Math.pow(1 - progress, 2);
 
-        // Temps "modifié"
-        const smoothTime =
-            new Date(
-                now + smoothOffsetHours * 60 * 60 * 1000
-            );
-
-        // Affichage
-        const hours =
-            String(smoothTime.getHours()).padStart(2,'0');
-
-        const minutes =
-            String(smoothTime.getMinutes()).padStart(2,'0');
-
-        const seconds =
-            String(smoothTime.getSeconds()).padStart(2,'0');
-
-        document.getElementById("clock").innerHTML =
-            `${hours}:${minutes}:${seconds}`;
-
-        // Barre de progression
-        document.getElementById("bar").style.width =
-            `${progress * 100}%`;
-
-        // Texte info
-        const addedHours =
-            smoothOffsetHours.toFixed(2);
-
-        document.getElementById("info").innerHTML =
-            `Décalage appliqué : +${addedHours} h`;
-
-        // Animation ultra fluide
-        requestAnimationFrame(updateClock);
+        progressiveShift =
+            MAX_SHIFT_HOURS * smooth;
     }
 
-    updateClock();
+    // Heure progressive
+    const adaptedTime =
+        new Date(
+            currentDate.getTime() +
+            progressiveShift * 3600000
+        );
+
+    // Format
+    const h =
+        String(adaptedTime.getHours())
+        .padStart(2,"0");
+
+    const m =
+        String(adaptedTime.getMinutes())
+        .padStart(2,"0");
+
+    document.getElementById("clock")
+        .innerText = `${h}:${m}`;
+
+    // Ville dynamique
+
+    if(progress < 0.25){
+
+        document.getElementById("city")
+            .innerText = "NEW YORK";
+
+    }else if(progress < 0.75){
+
+        document.getElementById("city")
+            .innerText =
+            "ATLANTIQUE NORD";
+
+    }else{
+
+        document.getElementById("city")
+            .innerText = "PARIS";
+    }
+
+    // Barre progression
+
+    document.getElementById("bar")
+        .style.width = `${progress*100}%`;
+
+    document.getElementById("percent")
+        .innerText =
+        `${Math.round(progress*100)}%`;
+
+    // Texte intelligent
+
+    const shift =
+        progressiveShift.toFixed(1);
+
+    document.getElementById("info")
+        .innerHTML =
+        `Adaptation biologique progressive<br>
+         Décalage actuel : +${shift}h`;
+
+    requestAnimationFrame(updateClock);
+}
+
+updateClock();
 
 </script>
 
